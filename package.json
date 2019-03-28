@@ -1,0 +1,36 @@
+{
+  "name": "tonystudio-api",
+  "version": "0.1.0",
+  "description": "node cli for some api.",
+  "main": "index.js",
+  "bin": {
+    "tonystudio-api": "./bin/tonystudio-api"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "npm publish .",
+    "debug": "npm link"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CoderTonyChan/image-dl-site.git"
+  },
+  "keywords": [
+    "download",
+    "images",
+    "batch"
+  ],
+  "author": "TonyChan <codertonychan@icloud.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/CoderTonyChan/image-dl-site/issues"
+  },
+  "homepage": "https://github.com/CoderTonyChan/image-dl-site#readme",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.2",
+    "commander": "^2.11.0",
+    "mkdirp": "^0.5.1",
+    "request": "^2.83.0"
+  }
+}

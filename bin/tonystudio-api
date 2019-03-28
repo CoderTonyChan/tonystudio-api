@@ -1,0 +1,71 @@
+#!/usr/bin/env node
+const fs = require('fs');
+const path = require('path');
+const cwd = process.cwd();
+const version = require(path.join(__dirname, '../package.json')).version;
+const download = require('../index.js');
+
+const { postMovieData } = require('../api/airtable-douban/util');
+
+let program = require('commander')
+    .version(version)
+    .usage('[options] <urls ...>')
+    .option('-o, --output <dirname>', 'the output dirname, or filename when download single image file')
+    .option('-c, --config <filepath>', 'the configuration filepath')
+    .option('-m, --meizitu <id>', '下载妹子图的post') // 下载妹子图的post
+    .option('-n, --nhentai <id>', '下载nhentai的图片') // 下载妹子图的post
+    .option('-d, --debug', 'debug') // 下载妹子图的post
+    // TODO filename
+    .parse(process.argv);
+
+let options = {};
+
+if (program.config) {
+    let configPath = path.resolve(cwd, program.config);
+    if (fs.existsSync(configPath)) {
+        Object.assign(options, require(configPath));
+    } else {
+        console.error(program.config + ': not found');
+        process.exit(1);
+    }
+}
+
+if (program.output) {
+    options.output = program.output;
+}
+
+if (program.meizitu) {
+    options.meizitu = program.meizitu;
+
+    options.output = options.output || './';
+
+    if (program.args.length) {
+        options.urls = program.args;
+    }
+    options.urls = options.urls || [];
+
+    download(options, true);
+}
+// console.log(options.meizitu);
+// console.log(program.meizitu);
+
+if (program.nhentai) {
+    options.nhentai = program.nhentai;
+    options.output = options.output || './';
+
+    if (program.args.length) {
+        options.urls = program.args;
+    }
+    options.urls = options.urls || [];
+    download(options, true);
+}
+
+postMovieData
+
+if (program.debug) {
+    console.log('debug');
+    postMovieData('5300054')
+}
+
+
+// console.log("hello world");
