@@ -31,6 +31,8 @@
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.11.0",
     "mkdirp": "^0.5.1",
-    "request": "^2.83.0"
+    "request": "^2.83.0",
+    "xmldom": "^0.1.27",
+    "xpath": "0.0.27"
   }
 }

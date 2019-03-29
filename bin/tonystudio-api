@@ -5,7 +5,7 @@ const cwd = process.cwd();
 const version = require(path.join(__dirname, '../package.json')).version;
 const download = require('../index.js');
 
-const { postMovieData } = require('../api/airtable-douban/util');
+const { syncDoubanMovie } = require('../api/airtable-douban/douban-movie');
 
 let program = require('commander')
     .version(version)
@@ -60,12 +60,11 @@ if (program.nhentai) {
     download(options, true);
 }
 
-postMovieData
 
 if (program.debug) {
     console.log('debug');
-    postMovieData('5300054')
+    // postMovieData('5300054')
+    syncDoubanMovie();
 }
-
 
 // console.log("hello world");
