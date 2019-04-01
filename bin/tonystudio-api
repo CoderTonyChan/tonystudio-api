@@ -65,7 +65,7 @@ if (program.nhentai) {
 if (program.debug) {
     console.log('debug');
     // postMovieData('5300054')
-    syncJavbus();
+    syncDoubanMovie();
 }
 
 // console.log("hello world");

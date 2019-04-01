@@ -1,24 +1,30 @@
 const axios = require('axios');
 
-const { httpsOverHttp } = require('tunnel');
 const { postAirtable } = require('./util');
 
-const agent = httpsOverHttp({
-    proxy: {
-        host: '127.0.0.1',
-        port: 1087,
-    },
-});
+// const { httpsOverHttp } = require('tunnel');
+// const agent = httpsOverHttp({
+//     proxy: {
+//         host: '127.0.0.1',
+//         port: 1087,
+//     },
+// });
 
-const axiosClient = axios.create({
-    httpsAgent: agent,
-});
+// const axiosClient = axios.create({
+//     httpsAgent: agent,
+// });
 
 const getDetail = async (link) => {
     // debug
     // console.log(link);
-    const resp = await axiosClient(link);
+    // const resp = await axiosClient(link);
+    const resp = await axios({
+        method: 'get',
+        url: link,
+    });
     const detailPage = resp.data;
+    // console.log(detailPage);
+    
     // debug
     // console.log(detailPage);
     // 演员
@@ -104,7 +110,7 @@ const getDetail = async (link) => {
 
     let content = {
         "fields": {
-            "Title": `${code} ${filmName} ${filmTime}`,
+            "Title": `${filmName} ${filmTime}`,
             "Original Title": filmName,
             "Director": directorName,
             "Actresses": actresses?actresses.join("，"):null,
@@ -118,7 +124,10 @@ const getDetail = async (link) => {
             "Cover": [{
                 "url": filmCover
             }],
-            "Screen Data": screenData?screenData.map((i) => ({ "url": i })):[]
+            "Screen Data": screenData ? screenData.map((i) => ({ "url": i })) : [],
+            "Japonx Link": `https://www.japonx.tv/portal/index/search.html?k=${code}&x=0&y=0`,
+            "Avgle Link": `https://api.avgle.com/v1/search/${code}/0?limit=10&t=a&o=bw`,
+            "Javlibrary Link": `http://www.javlibrary.com/cn/vl_searchbyid.php?keyword=${code}`
         }
     }
     // console.log(content)
@@ -197,58 +206,66 @@ const getActress = async (link) => {
 exports.syncJavbus = async (id) => {
     const LocalData = require('../../data/JavBusBackup.json');
 
-    // const LocalFavList = LocalData.favorite.map(i => `https://www.javbus.com/${i.shortCode}`)//.map((link) => { getDetail(link)});
+    const LocalFavList = LocalData.favorite.map(i => `https://www.javbus.com/${i.shortCode}`)//.map((link) => { getDetail(link)});
 
-    // for (const link of LocalFavList) {
-    //     console.log(link);
-    //     await getDetail(link)
-    // }
+    for (const link of LocalFavList) {
+        console.log(link);
+        await getDetail(link)
+    }
 
-    // const LocalArcList = LocalData.archive.map(i => `https://www.javbus.com/${i.shortCode}`)//.map(async (link) => { getDetail(link)});
+    const LocalArcList = LocalData.archive.map(i => `https://www.javbus.com/${i.shortCode}`)//.map(async (link) => { getDetail(link)});
 
-    // for (const link of LocalArcList) {
-    //     console.log(link);
-    //     await getDetail(link)
-    // }
+    for (const link of LocalArcList) {
+        console.log(link);
+        await getDetail(link)
+    }
 
+    console.log(LocalFavList.length);
+    console.log(LocalArcList.length);
 
     // await Promise.all(LocalFavList)
     // await Promise.all(LocalArcList)
-    // console.log(LocalFavList.length);
 
     // const LocalActressList = LocalData.actress.map(i => `https://www.javbus.com/${i.un}star/${i.shortCode}`);
 
-    // console.log(LocalArcList);
-    // console.log(LocalActressList);
 
     // const detail = await getDetail('https://www.javbus.com/IPX-230');
     // console.log(detail);
 
-    for (const actress of LocalData.actress) {
-        const { birth, age, height, breast, xiong, yao, tun } = await getActress(`https://www.javbus.com/${actress.un}star/${actress.shortCode}`);
-        const { info, shortCode, src } = actress;
-        console.log({ birth, age, height, breast, xiong, yao, tun, info, shortCode, src} );
 
-        let content = {
-            "fields": {
-                "Name": info,
-                "Photo": [{
-                    "url": src
-                }],
-                "Birth": birth,
-                "Height": height,
-                "Age": age,
-                "Breast": breast,
-                "Xiong": xiong,
-                "Yao": yao,
-                "Tun": tun,
-                "Short Code": shortCode,
-                "uncensored": actress.un.length > 0,
-            }
-        }
-        console.log(content)
-        await postAirtable(content, "app2Z4H0EoUnF1OM9/Actresses")
-    }
+    // const resp = await axios({
+    //     method: 'get',
+    //     url: 'https://www.javbus.com/IPX-230',
+    // });
+    // const detailPage = resp.data;
+    // console.log(detailPage);
+    
+
+    // for (const actress of LocalData.actress) {
+    //     const { birth, age, height, breast, xiong, yao, tun } = await getActress(`https://www.javbus.com/${actress.un}star/${actress.shortCode}`);
+    //     const { info, shortCode, src } = actress;
+    //     console.log({ birth, age, height, breast, xiong, yao, tun, info, shortCode, src} );
+
+    //     let content = {
+    //         "fields": {
+    //             "Name": info,
+    //             "Photo": [{
+    //                 "url": src
+    //             }],
+    //             "Birth": birth,
+    //             "Height": height,
+    //             "Age": age,
+    //             "Breast": breast,
+    //             "Xiong": xiong,
+    //             "Yao": yao,
+    //             "Tun": tun,
+    //             "Short Code": shortCode,
+    //             "uncensored": actress.un.length > 0,
+    //         }
+    //     }
+    //     console.log(content)
+    //     await postAirtable(content, "app2Z4H0EoUnF1OM9/Actresses")
+    // }
     // console.log(LocalData.actress.length);uncensored
     
     

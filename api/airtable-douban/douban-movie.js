@@ -83,7 +83,7 @@ exports.postMovieData = async (id, catchData) => {
             "Douban Link": data.alt,
             "Aka": data.aka.join("，"),
             "Summary": data.summary,
-            "Douban Rating": parseInt(data.rating.average),
+            "Douban Rating": data.rating.average > 0 ? parseInt(data.rating.average) : 5,
             "Subtype": data.subtype,
             "Cover": [{
                 "url": data.images.large
@@ -197,29 +197,29 @@ exports.syncDoubanMovie = async () => {
     var watched = [];
     var watching = [];
 
-    var wishUrl = 'https://movie.douban.com/people/' + douban.user + '/wish';
+    // var wishUrl = `https://movie.douban.com/people/${douban.user}/wish`;
 
-    for (var nextWish = wishUrl; nextWish;) {
-        var resWish = await resolvMovies(nextWish, timeout);
-        nextWish = resWish.next;
-        wish = wish.concat(resWish.list);
-    }
+    // for (var nextWish = wishUrl; nextWish;) {
+    //     var resWish = await resolvMovies(nextWish, timeout);
+    //     nextWish = resWish.next;
+    //     wish = wish.concat(resWish.list);
+    // }
 
-    // var watchedUrl = 'https://movie.douban.com/people/' + douban.user + '/collect';
+    // var watchedUrl = `https://movie.douban.com/people/${douban.user}/collect`;
 
     // for (var nextWatched = watchedUrl; nextWatched;) {
     //     var resWatched = await resolvMovies(nextWatched, timeout);
     //     nextWatched = resWatched.next;
-    //     watched = watched.resolvMovies(resWatched.list);
+    //     watched = watched.concat(resWatched.list);
     // }
 
-    // var watchingUrl = 'https://movie.douban.com/people/' + douban.user + '/do';
+    var watchingUrl = `https://movie.douban.com/people/${douban.user}/do`;
 
-    // for (var nextWatching = watchingUrl; nextWatching;) {
-    //     var resWatching = await resolv(nextWatching, timeout);
-    //     nextWatching = resWatching.next;
-    //     watching = watching.concat(resWatching.list);
-    // }
+    for (var nextWatching = watchingUrl; nextWatching;) {
+        var resWatching = await resolvMovies(nextWatching, timeout);
+        nextWatching = resWatching.next;
+        watching = watching.concat(resWatching.list);
+    }
 
     var endTime = new Date().getTime();
 
