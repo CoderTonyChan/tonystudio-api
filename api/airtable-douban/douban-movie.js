@@ -96,6 +96,118 @@ exports.postMovieData = async (id, catchData) => {
 };
 
 
+async function resolvSimpleMovies(url, timeout) {
+    console.log(url);
+    var offline = false;
+    var response = '';
+    try {
+        response = await axios({
+            method: 'get',
+            url: url,
+        });
+
+    } catch (err) {
+        console.log(err);
+        offline = true;
+    }
+
+    if (offline) {
+        return {
+            list: [],
+            next: ""
+        };
+    }
+
+    var doc = new Dom({
+        errorHandler: {
+            warning: function (e) {
+            },
+
+            error: function (e) {
+            },
+
+            fatalError: function (e) {
+            }
+        }
+    }).parseFromString(response.data.toString());
+
+    // console.log(doc);
+
+    var items = xpath.select('//div[@class="grid-view"]/div[@class="item"]', doc);
+    var next = xpath.select('string(//span[@class="next"]/a/@href)', doc);
+    if (next.startsWith("/")) {
+        next = "https://movie.douban.com" + next;
+    }
+
+
+    var list = [];
+    for (var i in items) {
+        var parser = new Dom().parseFromString(items[i].toString());
+        var title = xpath.select1('string(//li[@class="title"]/a/em)', parser);
+        var alt = xpath.select1('string(//li[@class="title"]/a/@href)', parser);
+        var image = xpath.select1('string(//div[@class="item"]/div[@class="pic"]/a/img/@src)', parser).replace('ipst', 'spst');
+
+        var tags = xpath.select1('string(//li/span[@class="tags"])', parser);
+        tags = tags ? tags.substr(3) : '';
+        var date = xpath.select1('string(//li/span[@class="date"])', parser);
+        date = date ? date : '';
+
+        var recommend = xpath.select1('string(//li/span[starts-with(@class,"rating")]/@class)', parser);
+        const recommendInt = parseInt(recommend.substr(6, 1));
+        recommend = renderStar(recommend.substr(6, 1));
+
+
+        var comment = xpath.select1('string(//li/span[@class="comment"])', parser);
+        comment = comment ? comment : '';
+
+        var info = xpath.select1('string(//li[@class="intro"])', parser);
+        info = info ? info : '';
+
+        //image = 'https://images.weserv.nl/?url=' + image.substr(8, image.length - 8) + '&w=100';
+
+        let id = /\/(\d{5,8})\//g.exec(alt)[1]
+
+        let catchData = {
+            recommendInt,
+            title: title,
+            alt: alt,
+            image: image,
+            tags: tags,
+            date: date,
+            recommend: recommend,
+            comment: comment,
+            info: info
+        };
+        console.log(`catchData`);
+        console.log(catchData);
+
+
+        let content = {
+            "fields": {
+                "Info": info,
+                "Tags": tags,
+                "Date": date,
+                "Personal Notes": comment,
+                "Personal Rating": recommendInt,
+                "Title": title,
+                "Douban Link": alt,
+                "Cover": [{
+                    "url": image
+                }]
+            }
+        }
+
+        await postAirtable(content, "appSyHuGwMS7p7X1s/Movies")
+
+        list.push(catchData);
+    }
+
+    return {
+        'list': list,
+        'next': next
+    };
+}
+
 async function resolvMovies(url, timeout) {
     console.log(url);
     var offline = false;
@@ -178,6 +290,9 @@ async function resolvMovies(url, timeout) {
             comment: comment,
             info: info
         };
+        console.log(`catchData`);
+        console.log(catchData);
+        
         await exports.postMovieData(id, catchData)
 
         list.push(catchData);
@@ -206,20 +321,21 @@ exports.syncDoubanMovie = async () => {
     // }
 
     // var watchedUrl = `https://movie.douban.com/people/${douban.user}/collect`;
+    var watchedUrl = `https://movie.douban.com/people/103961302/collect?start=15&sort=time&rating=all&filter=all&mode=grid`;
 
-    // for (var nextWatched = watchedUrl; nextWatched;) {
-    //     var resWatched = await resolvMovies(nextWatched, timeout);
-    //     nextWatched = resWatched.next;
-    //     watched = watched.concat(resWatched.list);
-    // }
-
-    var watchingUrl = `https://movie.douban.com/people/${douban.user}/do`;
-
-    for (var nextWatching = watchingUrl; nextWatching;) {
-        var resWatching = await resolvMovies(nextWatching, timeout);
-        nextWatching = resWatching.next;
-        watching = watching.concat(resWatching.list);
+    for (var nextWatched = watchedUrl; nextWatched;) {
+        var resWatched = await resolvSimpleMovies(nextWatched, timeout);
+        nextWatched = resWatched.next;
+        watched = watched.concat(resWatched.list);
     }
+    
+    // var watchingUrl = `https://movie.douban.com/people/${douban.user}/do`;
+
+    // for (var nextWatching = watchingUrl; nextWatching;) {
+    //     var resWatching = await resolvMovies(nextWatching, timeout);
+    //     nextWatching = resWatching.next;
+    //     watching = watching.concat(resWatching.list);
+    // }
 
     var endTime = new Date().getTime();
 

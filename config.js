@@ -1,6 +1,6 @@
 module.exports = {
     airtable: {
-        appkey: process.env.airtable || 'key3RsANRfuAozqgP', // airtable
+        appkey: process.env.airtable || 'key3RsANRTonyfuAozqgP', // airtable
         tableURL: process.env.tableURL || 'appSyHuGwMS7p7X1s',
     },
     douban: {
