@@ -107,7 +107,8 @@ const getDetail = async (link) => {
     }
     const detail = { filmName,filmCover,actresses, filmTime, filmLast, filmEstabName, filmMakerbName, seriesName, directorName, code, screenData };
 
-
+    const year = filmTime.substring(0, 4);
+    
     let content = {
         "fields": {
             "Title": `${filmName} ${filmTime}`,
@@ -121,6 +122,7 @@ const getDetail = async (link) => {
             "Film Estab Name": filmEstabName,
             "Film Maker Name": filmMakerbName,
             "Series Name": seriesName,
+            "Year": Number(year),
             "Cover": [{
                 "url": filmCover
             }],
