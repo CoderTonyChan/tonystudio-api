@@ -1,5 +1,5 @@
 const axios = require('axios');
-const { airtable, douban } = require('../../config');
+const { airtable, douban,ifttt } = require('../../config');
 
 exports.postAirtable = async (datas, key) => {
     const response = await axios({
@@ -10,12 +10,27 @@ exports.postAirtable = async (datas, key) => {
         },
         data: datas,
     });
-
+    
     var data = response.data
 
     if (data.id) console.log('SUCCEED');
     else console.log('ERROR');
 }
+
+
+exports.postIFTTT = async (datas, key) => {
+    const response = await axios({
+        method: 'post',
+        url: `https://maker.ifttt.com/trigger/${key}/with/key/${ifttt.appkey}`,
+        data: datas,
+    });
+
+    // 200 代表成功了
+    var data = response.data
+    console.log(data);
+    
+}
+
 
 exports.renderStar = (num) => {
     switch (num) {

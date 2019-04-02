@@ -7,6 +7,9 @@ const download = require('../index.js');
 
 const { syncDoubanMovie } = require('../api/airtable-douban/douban-movie');
 const { syncJavbus } = require('../api/airtable-douban/javbus-sync');
+const { syncJavbusIFTTT } = require('../api/airtable-douban/javbus-ifttt');
+
+
 
 let program = require('commander')
     .version(version)
@@ -65,7 +68,7 @@ if (program.nhentai) {
 if (program.debug) {
     console.log('debug');
     // postMovieData('5300054')
-    syncDoubanMovie();
+    syncJavbusIFTTT();
 }
 
 // console.log("hello world");
