@@ -181,7 +181,7 @@ async function resolvBook(url, timeout, headers) {
         let content = {
             "fields": {
                 "Title": title,
-                "Year": year,
+                "Year": Number(year),
                 "Status": updated,
                 "Tag": tags,
                 "Douban Link": alt,
