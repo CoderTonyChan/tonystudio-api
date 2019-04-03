@@ -200,91 +200,113 @@ function getJSON(url, callback) {
         });
     }
 
-
     // 📖
     if (reBook.test(doubanSite)) {
         console.log('📖');
-        const ul_tag = $("div.grid-view .item .info .title");
+        const ul_tag = $("ul.interest-list .subject-item .info h2");
         if (ul_tag) {
             ul_tag.append(ifttt);
         }
 
         $(".ifttt").click(function (event) {
-            const item = $(event.currentTarget).parent().parent().parent().parent()
+            const item = $(event.currentTarget).parent().parent().parent()
             const pic = item.find('.pic')
             const info = item.find('.info')
 
             // console.log(pic.text());
             // console.log(info.html());
 
-            const title = info.find('.title a').text().replace(/[\r\n]/g, "").replace(/[  ]/g, "").trim();
-            const intro = info.find('.intro').text().trim()
-            const date = info.find('.date').text().trim()
-            const tags = info.find('.tags').text().trim()
-            const comment = info.find('.comment').text()
+            const title = info.find('h2 a').text().replace(/[\r\n]/g, "").replace(/[  ]/g, "").trim();
+            const intro = info.find('.pub').text().trim()
+            const date = info.find('.date').text().trim().replace(/[\r\n]/g, "").replace(/[\n]/g, "")
+            let tags = info.find('.tags').text().trim()
+            tags = tags ? tags.substr(3) : '';
+            const comment = info.find('.comment').text().replace(/[\r\n]/g, "").replace(/[\n]/g, "")
             const classname = info.find('span[class^="rating"]').attr("class")
             const recommend = classname ? classname.replace(/[^0-9]/ig, "") : 3;
             const recommendInt = parseInt(recommend);
             const alt = pic.find('.nbg').attr("href")
             const image = pic.find('img').attr("src")
 
-
+            const year = date.substring(0, 4)
             // const tags = info.find('.tags').text()
             // "ul li:first"
+            
+            // console.log({ title, intro, tags, date, comment, alt, image, recommendInt, year});
+            // console.log({ recommendInt });
 
-            console.log({ title, intro, tags, date, comment, alt, image, recommendInt });
-            console.log({ recommendInt });
 
+            let postData = {
+                "Year": Number(year),
+                "Title": title,
+                "Status": date,
+                "Tag": tags,
+                "Douban Link": alt,
+                "Summary": intro,
+                "Personal Notes": comment,
+                "Personal Rating": recommendInt,
+                "Cover": image
+            }
 
-            // let catchData = {
-            //     recommendInt,
-            //     title: title,
-            //     alt: alt,
-            //     image: image,
-            //     tags: tags,
-            //     date: date,
-            //     recommend: recommend,
-            //     comment: comment,
-            //     info: info
-            // };
-
+            let value1 = '';
+            for (const key in postData) {
+                if (postData.hasOwnProperty(key)) {
+                    const value = postData[key];
+                    value1 = `${value1}::airtable::${key}::${JSON.stringify(value)}`
+                }
+            }
+            value1 = value1.replace(/\"/g, "");
+            value1 = value1.replace(/\]/g, "");
+            value1 = value1.replace(/\[/g, "");
+            let content = {
+                "value1": value1
+            }
+            postIFTTT(content, 'douban_book')
         });
     }
 
     // 🎮
     if (reGame.test(doubanSite)) {
         console.log('🎮');
-        const ul_tag = $("div.grid-view .item .info .title");
+        const ul_tag = $("div.game-list .common-item .content .title");
         if (ul_tag) {
             ul_tag.append(ifttt);
         }
 
         $(".ifttt").click(function (event) {
-            const item = $(event.currentTarget).parent().parent().parent().parent()
+            const item = $(event.currentTarget).parent().parent().parent()
             const pic = item.find('.pic')
-            const info = item.find('.info')
+            const info = item.find('.content')
 
             // console.log(pic.text());
             // console.log(info.html());
 
             const title = info.find('.title a').text().replace(/[\r\n]/g, "").replace(/[  ]/g, "").trim();
-            const intro = info.find('.intro').text().trim()
             const date = info.find('.date').text().trim()
-            const tags = info.find('.tags').text().trim()
-            const comment = info.find('.comment').text()
+            let tags = info.find('.tags').text().trim()
+            tags = tags ? tags.substr(3) : '';
+            const comment = info.find('div:not([class])').text()
             const classname = info.find('span[class^="rating"]').attr("class")
-            const recommend = classname ? classname.replace(/[^0-9]/ig, "") : 3;
-            const recommendInt = parseInt(recommend);
-            const alt = pic.find('.nbg').attr("href")
+            const recommend = classname ? classname.replace(/[^0-9]/ig, "") : 30;
+            let recommendInt = parseInt(recommend) / 10; // 会是40
+            const alt = pic.find('a').attr("href")
             const image = pic.find('img').attr("src")
 
+            info.find('.desc').children().remove()
+            const intro = info.find('.desc').text().trim().replace(/[\r\n]/g, "").replace(/[\n]/g, "")
 
+            if (recommendInt === 0) {
+                recommendInt = 3;
+            }
             // const tags = info.find('.tags').text()
             // "ul li:first"
+            const year = date.substring(0, 4)
 
             console.log({ title, intro, tags, date, comment, alt, image, recommendInt });
             console.log({ recommendInt });
+            console.log({ year });
 
+            // "Year": Number(year),
 
             // let catchData = {
             //     recommendInt,
