@@ -149,7 +149,7 @@ async function resolvBook(url, timeout, headers) {
 
         var pub = xpath.select1('string(//div[@class="pub"])', parser);
 
-        var updated = xpath.select1('string(//span[@class="date"])', parser);
+        var updated = xpath.select1('string(//span[@class="date"])', parser).trim();
 
         var tags = xpath.select1('string(//span[@class="tags"])', parser);
         tags = tags ? tags.substr(3) : '';
@@ -165,6 +165,8 @@ async function resolvBook(url, timeout, headers) {
 
         //image = 'https://images.weserv.nl/?url=' + image.substr(8, image.length - 8) + '&w=100';
 
+        const year = updated.substring(0, 4);
+
         list.push({
             title: title,
             alt: alt,
@@ -179,6 +181,7 @@ async function resolvBook(url, timeout, headers) {
         let content = {
             "fields": {
                 "Title": title,
+                "Year": year,
                 "Status": updated,
                 "Tag": tags,
                 "Douban Link": alt,
