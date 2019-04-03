@@ -77,6 +77,8 @@ async function resolvGames(url, timeout) {
         info = info ? info : '';
         info = info.replace(/(^\s*)|(\s*$)/g, '');
 
+        const year = date.substring(0, 4)
+
         list.push({
             title: title,
             alt: alt,
@@ -90,6 +92,7 @@ async function resolvGames(url, timeout) {
 
         let content = {
             "fields": {
+                "Year": Number(year),
                 "Title": title,
                 "Tag": tags,
                 "Douban Link": alt,
