@@ -111,7 +111,8 @@ function getJSON(url, callback) {
         }
 
         $(".ifttt").click(function (event) {
-            const item = $(event.currentTarget).parent().parent().parent().parent()
+            const currentTarget = $(event.currentTarget);
+            const item = currentTarget.parent().parent().parent().parent()
             const pic = item.find('.pic')
             const info = item.find('.info')
 
@@ -121,7 +122,8 @@ function getJSON(url, callback) {
             const title = info.find('.title a').text().replace(/[\r\n]/g, "").replace(/[  ]/g, "").trim();
             const intro = info.find('.intro').text().trim()
             const date = info.find('.date').text().trim()
-            const tags = info.find('.tags').text().trim()
+            let tags = info.find('.tags').text().trim()
+            tags = tags ? tags.substr(3) : '';
             const comment = info.find('.comment').text()
             const classname = info.find('span[class^="rating"]').attr("class")
             const recommend = classname ? classname.replace(/[^0-9]/ig, "") : 3;
@@ -176,7 +178,9 @@ function getJSON(url, callback) {
                         "value1": value1
                     }
                     
-                    postIFTTT(content, 'douban_movie')
+                    postIFTTT(content, 'douban_movie',(res) => {
+                        currentTarget.text('完成')
+                    })
                     // postIFTTT(content, 'douban_game')
                     // postIFTTT(content, 'douban_book')
 
