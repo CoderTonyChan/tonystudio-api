@@ -181,7 +181,7 @@ async function resolvBook(url, timeout, headers) {
         const infoArray = pub.split(' / ');
         // console.log(infoArray);
 
-        const publishDate = infoArray[infoArray.length - 2].trim()
+        const publishDate = infoArray[infoArray.length - 2].trim().replace(/年/g, "-").replace(/月/g, "-");
         const author = infoArray[0].trim()
 
         // console.log(publishDate);
