@@ -324,9 +324,12 @@ function getJSON(url, callback) {
             // 最后一个
             const publishDate = intro.split('/').pop().trim()
 
+            // 第一个是平台
+            const platform = intro.split('/').shift().trim()
+
             console.log({ title, intro, tags, date, comment, alt, image, recommendInt });
             console.log({ recommendInt });
-            console.log({ year, publishDate });
+            console.log({ year, publishDate, platform});
 
             // "Year": Number(year),
 

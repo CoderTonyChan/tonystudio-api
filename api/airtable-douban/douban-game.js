@@ -79,6 +79,12 @@ async function resolvGames(url, timeout) {
 
         const year = date.substring(0, 4)
 
+        // 最后一个
+        const publishDate = info.split('/').pop().trim()
+
+        // 第一个是平台
+        const platform = info.split('/').shift().trim()
+
         list.push({
             title: title,
             alt: alt,
@@ -92,6 +98,8 @@ async function resolvGames(url, timeout) {
 
         let content = {
             "fields": {
+                "Publish Date": publishDate,
+                "平台": platform,
                 "Year": Number(year),
                 "Title": title,
                 "Tag": tags,
