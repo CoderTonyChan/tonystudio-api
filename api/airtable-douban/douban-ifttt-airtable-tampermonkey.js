@@ -331,10 +331,9 @@ function getJSON(url, callback) {
             // console.log({ recommendInt });
             // console.log({ year, publishDate, platform});
 
-
             // 增加系列 增加发行商 The Pokémon Company Nintendo 
-            let series = '';
-            let publish = '';
+            let series = undefined;
+            let publish = undefined;
             if (/王国之心/ig.test(title)) {
                 series = "王国之心"
                 publish = "SQUARE ENIX"
@@ -355,6 +354,7 @@ function getJSON(url, callback) {
                 publish = "SQUARE ENIX"
             } else if (/塞尔达/ig.test(title)) {
                 series = "塞尔达传说"
+                publish = "Nintendo"
             } else if (/马里奥/ig.test(title)) {
                 series = "马里奥"
                 publish = "Nintendo"

@@ -86,8 +86,8 @@ async function resolvGames(url, timeout) {
         const platform = info.split('/').shift().trim()
 
         // 增加系列 增加发行商 The Pokémon Company Nintendo 
-        let series = '';
-        let publish = '';
+        let series = undefined;
+        let publish = undefined;
         if (/王国之心/ig.test(title)) {
             series = "王国之心"
             publish = "SQUARE ENIX"
@@ -108,6 +108,7 @@ async function resolvGames(url, timeout) {
             publish = "SQUARE ENIX"
         } else if (/塞尔达/ig.test(title)) {
             series = "塞尔达传说"
+            publish = "Nintendo"
         } else if (/马里奥/ig.test(title)) {
             series = "马里奥"
             publish = "Nintendo"
@@ -127,7 +128,7 @@ async function resolvGames(url, timeout) {
             publish = "The Pokémon Company"
         }
         else if (/马力欧/ig.test(title)) {
-            series = "马力欧"
+            series = "马里奥"
             publish = "Nintendo"
         }
         else if (/超级机器人大战/ig.test(title)) {
@@ -209,7 +210,7 @@ async function resolvGames(url, timeout) {
                 }]
             }
         }
-        // console.log(content)
+        console.log(JSON.stringify(content))
         await postAirtable(content, "app4irXzCOE85aN6F/Games")
     }
 

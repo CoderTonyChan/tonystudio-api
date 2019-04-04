@@ -7,6 +7,7 @@ exports.postAirtable = async (datas, key) => {
         url: `https://api.airtable.com/v0/${key}`,
         headers: {
             "Authorization": "Bearer " + airtable.appkey,
+            'Content-Type': 'application/json',
         },
         data: datas,
     });
