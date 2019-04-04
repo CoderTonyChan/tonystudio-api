@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         douban-ifttt-airtable-tampermonkey
 // @namespace    http://tampermonkey.net/
-// @version      0.1
+// @version      1.0
 // @description  try to take over the world!
 // @author       CoderTonyChan
 // @match        https://*.douban.com/people/103961302/*
@@ -23,8 +23,8 @@ if (typeof GM_xmlhttpRequest === "undefined") {
 const ifttt = 'ba5A6Wvz98s33G_QeCRHub';
 
 function post(url, data, callback) {
-    console.log('post');
-    console.log(data);
+    // console.log('post');
+    // console.log(data);
     if (typeof data === "object") {
         data = JSON.stringify(data);
     }
@@ -244,12 +244,12 @@ function getJSON(url, callback) {
 
             // 倒数第二
             const infoArray = intro.split(' / ');
-            console.log(infoArray);
+            // console.log(infoArray);
 
             const publishDate = infoArray[infoArray.length - 2].trim()
             const author = infoArray[0].trim()
 
-            console.log(publishDate);
+            // console.log(publishDate);
             
             let postData = {
                 "作者": author,
@@ -327,24 +327,41 @@ function getJSON(url, callback) {
             // 第一个是平台
             const platform = intro.split('/').shift().trim()
 
-            console.log({ title, intro, tags, date, comment, alt, image, recommendInt });
-            console.log({ recommendInt });
-            console.log({ year, publishDate, platform});
+            // console.log({ title, intro, tags, date, comment, alt, image, recommendInt });
+            // console.log({ recommendInt });
+            // console.log({ year, publishDate, platform});
 
-            // "Year": Number(year),
+            let postData = {
+                "Publish Date": publishDate,
+                "平台": platform,
+                "Year": Number(year),
+                "Title": title,
+                "Tag": tags,
+                "Douban Link": alt,
+                "Summary": intro,
+                "Personal Notes": comment,
+                "Personal Rating": recommendInt,
+                "Date": date,
+                "Cover": image
+            }
 
-            // let catchData = {
-            //     recommendInt,
-            //     title: title,
-            //     alt: alt,
-            //     image: image,
-            //     tags: tags,
-            //     date: date,
-            //     recommend: recommend,
-            //     comment: comment,
-            //     info: info
-            // };
-
+            let value1 = '';
+            for (const key in postData) {
+                if (postData.hasOwnProperty(key)) {
+                    const value = postData[key];
+                    value1 = `${value1}::airtable::${key}::${JSON.stringify(value)}`
+                }
+            }
+            value1 = value1.replace(/\"/g, "");
+            value1 = value1.replace(/\]/g, "");
+            value1 = value1.replace(/\[/g, "");
+            let content = {
+                "value1": value1
+            }
+            postIFTTT(content, 'douban_game', (res) => {
+                currentTarget.text('完成')
+            })
+            
         });
     }
 
