@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         douban-ifttt-airtable-tampermonkey
-// @namespace    https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
-// @homepageURL  https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
-// @supportURL   https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
+// @namespace    https://blog.tonystudio.ml/2019/04/04/Tampermonkey-Tutorial/
+// @homepageURL  https://blog.tonystudio.ml/2019/04/04/Tampermonkey-Tutorial/
+// @supportURL   https://blog.tonystudio.ml/2019/04/04/Tampermonkey-Tutorial/
 // @downloadURL  https://github.com/CoderTonyChan/tonystudio-api/raw/master/api/airtable-douban/douban-ifttt-airtable-tampermonkey.user.js
 // @updateURL    https://github.com/CoderTonyChan/tonystudio-api/raw/master/api/airtable-douban/douban-ifttt-airtable-tampermonkey.user.js
 // @version      1.01
