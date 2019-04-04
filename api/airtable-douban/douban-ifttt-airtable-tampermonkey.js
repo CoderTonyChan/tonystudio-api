@@ -49,9 +49,11 @@ function post(url, data, callback) {
 }
 
 
-function postIFTTT(data,key) {
+function postIFTTT(data,key,callback) {
     post(`https://maker.ifttt.com/trigger/${key}/with/key/${ifttt}`,data,(res) => {
         console.log(res);
+        // 先写死 不写回调
+        callback ? callback(res): 0;
     })
 }
 
@@ -209,7 +211,8 @@ function getJSON(url, callback) {
         }
 
         $(".ifttt").click(function (event) {
-            const item = $(event.currentTarget).parent().parent().parent()
+            const currentTarget = $(event.currentTarget);
+            const item = currentTarget.parent().parent().parent()
             const pic = item.find('.pic')
             const info = item.find('.info')
 
@@ -235,9 +238,19 @@ function getJSON(url, callback) {
             // console.log({ title, intro, tags, date, comment, alt, image, recommendInt, year});
             // console.log({ recommendInt });
 
+            // 倒数第二
+            const infoArray = intro.split(' / ');
+            console.log(infoArray);
 
+            const publishDate = infoArray[infoArray.length - 2].trim()
+            const author = infoArray[0].trim()
+
+            console.log(publishDate);
+            
             let postData = {
+                "作者": author,
                 "Year": Number(year),
+                "Publish Date": publishDate,
                 "Title": title,
                 "Status": date,
                 "Tag": tags,
@@ -261,7 +274,9 @@ function getJSON(url, callback) {
             let content = {
                 "value1": value1
             }
-            postIFTTT(content, 'douban_book')
+            postIFTTT(content, 'douban_book',(res) => {
+                currentTarget.text('完成')
+            })
         });
     }
 
@@ -274,7 +289,8 @@ function getJSON(url, callback) {
         }
 
         $(".ifttt").click(function (event) {
-            const item = $(event.currentTarget).parent().parent().parent()
+            const currentTarget = $(event.currentTarget);
+            const item = currentTarget.parent().parent().parent()
             const pic = item.find('.pic')
             const info = item.find('.content')
 
@@ -301,7 +317,7 @@ function getJSON(url, callback) {
             // const tags = info.find('.tags').text()
             // "ul li:first"
             const year = date.substring(0, 4)
-
+            // 最后一个
             const publishDate = intro.split('/').pop().trim()
 
             console.log({ title, intro, tags, date, comment, alt, image, recommendInt });

@@ -178,8 +178,18 @@ async function resolvBook(url, timeout, headers) {
             comment: comment
         });
 
+        const infoArray = pub.split(' / ');
+        console.log(infoArray);
+
+        const publishDate = infoArray[infoArray.length - 2].trim()
+        const author = infoArray[0].trim()
+
+        console.log(publishDate);
+
         let content = {
             "fields": {
+                "作者": author,
+                "Publish Date": publishDate,
                 "Title": title,
                 "Year": Number(year),
                 "Status": updated,

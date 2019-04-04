@@ -22,6 +22,9 @@ npm publish .
 
 - [sync files between Google Drive and Airtable](https://airtable.com/integrations/googledrive)
 
+#### IFTTT
+---
+if 天气 then 推送信息 (只能安装App)
 
 ### 微博
 
@@ -40,6 +43,28 @@ npm publish .
 
 #### 转换时间格式
 
+
+### 豆瓣API问题
+
+#### 豆列
+---
+https://rsshub.app/douban/doulist/37716774
+
+所有信息都可以抓 有很多类型 比如 豆瓣读书评论/豆瓣小组/豆瓣电影/豆瓣读书/豆瓣 等等 
+
+#### 用户广播
+---
+https://rsshub.app/douban/people/62759792/status
+
+#### 话题
+----
+https://rsshub.app/douban/topic/48823
+
+#### 豆瓣小组
+----
+https://rsshub.app/douban/group/camera
+
+相当于论坛 
 
 ### RSS&博客RSS
 
@@ -98,6 +123,29 @@ webhook方式可以查到记录
     }
 ```
 
+
+### 空属性问题
+
+```
+重要的是要知道有空类属性以及没有类属性的元素，但它们需要不同的测试来选择。 有许多测试都做不同的事情。这是我们测试的HTML：
+
+<div class="">Empty Class Attribute </div>
+<div class="column">Full Class Attribute </div>
+<div>No Class Attribute </div>
+现在，让我们运行我们的测试(第一部分只是一个字符串，可以帮助我们知道警报中刚刚调用的内容，否则它没有意义)：
+$(document).ready(function(e){
+  // Outputs "Empty Class Attribute Full Class Attribute"
+  alert( "div[class] : "     + $('div[class]').text()     );
+// Outputs "Full Class Attribute"
+  alert( "div[class!=''] : " + $('div[class!=""]').text() );
+// Outputs "Empty Class Attribute" 
+  alert( "div[class=''] : "  + $('div[class=""]').text()  );
+// Outputs "No class Attribute"
+  alert( "div:not([class]) : " + $('div:not([class])').text()     );
+});
+您可以在浏览器中查看此代码：http://jsbin.com/ijupu 现在，掌握了这些知识，如果要在页面上选择具有空白属性且没有属性的每个div元素，请使用以下选择器：
+$("div[class=''], div:not([class])");
+```
 
 ### Options
 
