@@ -331,9 +331,105 @@ function getJSON(url, callback) {
             // console.log({ recommendInt });
             // console.log({ year, publishDate, platform});
 
+
+            // 增加系列 增加发行商 The Pokémon Company Nintendo 
+            let series = '';
+            let publish = '';
+            if (/王国之心/ig.test(title)) {
+                series = "王国之心"
+                publish = "SQUARE ENIX"
+            } else if (/勇者斗恶龙/ig.test(title)) {
+                series = "勇者斗恶龙"
+                publish = "SQUARE ENIX"
+            } else if (/星之卡比/ig.test(title)) {
+                series = "星之卡比"
+                publish = "Nintendo"
+            } else if (/大乱斗/ig.test(title)) {
+                series = "任天堂明星大乱斗"
+                publish = "Nintendo"
+            } else if (/火焰之纹章/ig.test(title)) {
+                series = "火焰之纹章"
+                publish = "Nintendo"
+            } else if (/古墓丽影/ig.test(title)) {
+                series = "古墓丽影"
+                publish = "SQUARE ENIX"
+            } else if (/塞尔达/ig.test(title)) {
+                series = "塞尔达传说"
+            } else if (/马里奥/ig.test(title)) {
+                series = "马里奥"
+                publish = "Nintendo"
+            } else if (/瓦里奥/ig.test(title)) {
+                series = "马里奥"
+                publish = "Nintendo"
+            } else if (/最终幻想/ig.test(title)) {
+                series = "最终幻想"
+                publish = "SQUARE ENIX"
+            }
+            else if (/宝可/ig.test(title)) {
+                series = "精灵宝可梦"
+                publish = "The Pokémon Company"
+            }
+            else if (/口袋/ig.test(title)) {
+                series = "精灵宝可梦"
+                publish = "The Pokémon Company"
+            }
+            else if (/马力欧/ig.test(title)) {
+                series = "马力欧"
+                publish = "Nintendo"
+            }
+            else if (/超级机器人大战/ig.test(title)) {
+                series = "超级机器人大战"
+                publish = "BANDAI NAMCO"
+            }
+            else if (/SD高达/ig.test(title)) {
+                series = "SD高达"
+                publish = "BANDAI NAMCO"
+            }
+            else if (/高达/ig.test(title)) {
+                series = "高达"
+                publish = "BANDAI NAMCO"
+            }
+            else if (/洛克人/ig.test(title)) {
+                series = "洛克人"
+                publish = "Capcom"
+            }
+            else if (/生化危机/ig.test(title)) {
+                series = "生化危机"
+                publish = "Capcom"
+            }
+            else if (/怪物猎人/ig.test(title)) {
+                series = "怪物猎人"
+                publish = "Capcom"
+            }
+            else if (/鬼武者/ig.test(title)) {
+                series = "鬼武者"
+                publish = "Capcom"
+            }
+            else if (/龙珠/ig.test(title)) {
+                series = "龙珠"
+                publish = "BANDAI NAMCO"
+            }
+            else if (/寄生前夜/ig.test(title)) {
+                publish = "SQUARE ENIX"
+            }
+            else if (/战神/ig.test(title)) {
+                series = "战神"
+                publish = "Sony Computer Entertainment"
+            }
+            else if (/逆转裁判/ig.test(title)) {
+                series = "逆转裁判"
+                publish = "Capcom"
+            }
+            else if (/恶魔城/ig.test(title)) {
+                series = "恶魔城"
+                publish = "Konami"
+            }
+
             let postData = {
                 "Publish Date": publishDate,
                 "平台": platform,
+                "系列": series,
+                "发行商": publish,
                 "Year": Number(year),
                 "Title": title,
                 "Tag": tags,
