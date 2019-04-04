@@ -5,7 +5,7 @@
 // @supportURL   https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
 // @downloadURL  https://github.com/CoderTonyChan/tonystudio-api/raw/master/api/airtable-douban/douban-ifttt-airtable-tampermonkey.user.js
 // @updateURL    https://github.com/CoderTonyChan/tonystudio-api/raw/master/api/airtable-douban/douban-ifttt-airtable-tampermonkey.user.js
-// @version      1.0
+// @version      1.01
 // @description  try to take over the world!
 // @author       CoderTonyChan
 // @match        https://*.douban.com/people/103961302/*
