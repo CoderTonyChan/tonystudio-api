@@ -179,12 +179,12 @@ async function resolvBook(url, timeout, headers) {
         });
 
         const infoArray = pub.split(' / ');
-        console.log(infoArray);
+        // console.log(infoArray);
 
         const publishDate = infoArray[infoArray.length - 2].trim()
         const author = infoArray[0].trim()
 
-        console.log(publishDate);
+        // console.log(publishDate);
 
         let content = {
             "fields": {
