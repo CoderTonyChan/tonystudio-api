@@ -17,6 +17,9 @@ npm link
 npm publish .
 ```
 
+### tampermonkey
+
+[douban-ifttt-airtable-tampermonkey](https://github.com/CoderTonyChan/tonystudio-api/raw/master/api/airtable-douban/douban-ifttt-airtable-tampermonkey.user.js)
 
 ### Zapier & IFTTT
 
