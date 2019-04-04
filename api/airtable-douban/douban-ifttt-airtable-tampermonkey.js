@@ -302,9 +302,11 @@ function getJSON(url, callback) {
             // "ul li:first"
             const year = date.substring(0, 4)
 
+            const publishDate = intro.split('/').pop().trim()
+
             console.log({ title, intro, tags, date, comment, alt, image, recommendInt });
             console.log({ recommendInt });
-            console.log({ year });
+            console.log({ year, publishDate });
 
             // "Year": Number(year),
 
