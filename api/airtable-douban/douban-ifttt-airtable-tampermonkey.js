@@ -246,7 +246,7 @@ function getJSON(url, callback) {
             const infoArray = intro.split(' / ');
             // console.log(infoArray);
 
-            const publishDate = infoArray[infoArray.length - 2].trim()
+            const publishDate = infoArray[infoArray.length - 2].trim().replace(/年/g, "-").replace(/月/g, "-");
             const author = infoArray[0].trim()
 
             // console.log(publishDate);
