@@ -1,6 +1,10 @@
 // ==UserScript==
 // @name         douban-ifttt-airtable-tampermonkey
-// @namespace    http://tampermonkey.net/
+// @namespace    https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
+// @homepageURL  https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
+// @supportURL   https://blog.tonystudio.ml/2019/04/04/Tampermonkey%20Tutorial/
+// @downloadURL  https://domain/folder/code.user.js
+// @updateURL    https://domain/folder/code.user.js
 // @version      1.0
 // @description  try to take over the world!
 // @author       CoderTonyChan
@@ -8,8 +12,6 @@
 // @connect        *
 // @grant        GM_xmlhttpRequest
 // @require         http://cdn.bootcss.com/jquery/1.8.3/jquery.min.js
-
-
 // ==/UserScript==
 
 
@@ -97,8 +99,6 @@ function getJSON(url, callback) {
     const reMovie = /movie.douban/i;
     const reBook = /book.douban/i;
     const reGame = /\/games/i;
-
-    
 
     const ifttt = '<button class="ifttt" style="font-size: 18px;outline: none;">[upload airtable]</button>';
 
