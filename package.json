@@ -31,6 +31,7 @@
     "cheerio": "^1.0.0-rc.2",
     "commander": "^2.11.0",
     "mkdirp": "^0.5.1",
+    "querystring": "^0.2.0",
     "request": "^2.83.0",
     "tunnel": "0.0.6",
     "xmldom": "^0.1.27",
