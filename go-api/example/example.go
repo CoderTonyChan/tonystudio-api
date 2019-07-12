@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/wuxiaoxiaoshen/holidays/holiday"
+	//"github.com/wuxiaoxiaoshen/holidays/holiday"
+	"github.com/CoderTonyChan/tonystudio-api/go-api/holidays"
 )
 
 func main() {

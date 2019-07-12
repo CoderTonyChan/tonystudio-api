@@ -1,7 +1,8 @@
 package holidays
 
 import (
-	"holidays/history"
+	// "holidays/history"
+	"../history"
 	"strings"
 	"time"
 )
